@@ -65,6 +65,11 @@ describe('app routes', () => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           name: 'Films!',
+          address: {
+            city: 'Portland',
+            state: 'Oregon',
+            country: 'United States'
+          }
         });
       });
   });
