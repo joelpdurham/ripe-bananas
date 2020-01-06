@@ -46,4 +46,15 @@ describe('app routes', () => {
         });
       });
   });
+
+  it('can get all studios', async() => {
+    return request(app)
+      .get('/api/v1/studios')
+      .then(res => {
+        expect(res.body).toEqual([{
+          _id: expect.any(String),
+          name: 'Films!',
+        }]);
+      });
+  });
 });
