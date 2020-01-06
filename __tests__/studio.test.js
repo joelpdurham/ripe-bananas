@@ -1,0 +1,49 @@
+require('dotenv').config();
+
+const request = require('supertest');
+const app = require('../lib/app');
+const connect = require('../lib/utils/connect');
+const mongoose = require('mongoose');
+const Studio = require('../lib/models/Studio');
+
+describe('app routes', () => {
+  beforeAll(() => {
+    connect();
+  });
+
+  beforeEach(() => {
+    return mongoose.connection.dropDatabase();
+  });
+
+  let studio;
+
+  beforeEach(async() => {
+    studio = await Studio.create({
+      name: 'Films!',
+      address: {
+        city: 'Portland',
+        state: 'Oregon',
+        country: 'United States'
+      }
+    });
+  });
+
+  afterAll(() => {
+    return mongoose.connection.close();
+  });
+
+  it('can create a studio', async() => {
+    return request(app)
+      .post('/api/v1/studios')
+      .send({
+        name: 'first one'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'first one',
+          __v: 0
+        });
+      });
+  });
+});
