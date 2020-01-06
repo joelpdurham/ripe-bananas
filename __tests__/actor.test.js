@@ -51,4 +51,15 @@ describe('app routes', () => {
         });
       });
   });
+
+  it('can get all actors', async() => {
+    return request(app)
+      .get('/api/v1/actors')
+      .then(res => {
+        expect(res.body).toEqual([{
+          _id: expect.any(String),
+          name: 'Robert Dangle',
+        }]);
+      });
+  });
 });
