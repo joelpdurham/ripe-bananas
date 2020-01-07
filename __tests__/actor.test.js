@@ -16,7 +16,7 @@ describe('app routes', () => {
   });
 
   let actor;
-  const date = new Date()
+  const date = new Date();
 
   beforeEach(async() => {
     actor = await Actor.create({
@@ -32,7 +32,7 @@ describe('app routes', () => {
   });
 
   it('can create an actor', async() => {
-    const myDate = new Date('12/10/1988')
+    const myDate = new Date('12/10/1988');
     return request(app)
       .post('/api/v1/actors')
       .send({
