@@ -23,6 +23,7 @@ describe('app routes', () => {
   let studio;
   let lauraDern;
   let reviewer;
+  let review;
 
   beforeEach(async() => {
     studio = await Studio.create({ name: 'Sony Pictures' });
@@ -39,6 +40,12 @@ describe('app routes', () => {
     reviewer = await Reviewer.create({
       name: 'Jimmy',
       company: 'film reviews dot com'
+    });
+    review = await Review.create({
+      rating: 5,
+      reviewer: reviewer._id,
+      review: 'Fantastic!',
+      film: film._id,
     })
   });
 
@@ -64,6 +71,22 @@ describe('app routes', () => {
           film: film._id.toString(),
           __v: 0
         });
+      });
+  });
+
+  it('can get top 100 reviews', async() => {
+    return request(app)
+      .get('/api/v1/reviews/')
+      .then(res => {
+        expect(res.body).toEqual([{
+          _id: expect.any(String),
+          rating: 5,
+          review: 'Fantastic!',
+          film: {
+            _id: film._id.toString(),
+            title: 'Little Women'
+          }
+        }]);
       });
   });
 });
