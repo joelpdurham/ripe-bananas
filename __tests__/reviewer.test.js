@@ -5,6 +5,10 @@ const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const Reviewer = require('../lib/models/Reviewer');
+const Film = require('../lib/models/Film');
+const Studio = require('../lib/models/Studio');
+const Actor = require('../lib/models/Actor');
+const Review = require('../lib/models/Review');
 
 describe('app routes', () => {
   beforeAll(() => {
@@ -15,13 +19,33 @@ describe('app routes', () => {
     return mongoose.connection.dropDatabase();
   });
 
-  let reviewer; 
+  let reviewer;
+  let film;
+  let studio;
+  let lauraDern;
+  let review;
 
   beforeEach(async() => {
     reviewer = await Reviewer.create({
-
       name: 'Paul',
       company: 'film reviews dot com'
+    });
+    studio = await Studio.create({ name: 'Sony Pictures' });
+    lauraDern = await Actor.create({ name: 'Laura Dern' });
+    film = await Film.create({
+      title: 'Little Women',
+      studio: studio._id,
+      released: 2019,
+      cast: {
+        role: 'Mary March',
+        actor: lauraDern._id
+      }
+    });
+    review = await Review.create({
+      rating: 5,
+      reviewer: reviewer._id,
+      review: 'Fantastic!',
+      film: film._id,
     });
   });
 
@@ -66,7 +90,16 @@ describe('app routes', () => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           name: 'Paul',
-          company: 'film reviews dot com' 
+          company: 'film reviews dot com',
+          reviews: [{
+            _id: expect.any(String),
+            rating: 5,
+            review: 'Fantastic!',
+            film: {
+              _id: expect.any(String),
+              title: 'Little Women'
+            }
+          }]
         });
       });
   });
