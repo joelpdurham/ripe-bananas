@@ -6,7 +6,7 @@ const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const Actor = require('../lib/models/Actor');
 
-describe.skip('app routes', () => {
+describe('app routes', () => {
   beforeAll(() => {
     connect();
   });
@@ -21,9 +21,9 @@ describe.skip('app routes', () => {
   beforeEach(async() => {
     actor = await Actor.create({
 
-      name: 'Robert Dangle',
+      name: 'Laura Dern',
       dob: date,
-      pob: 'Earth'
+      pob: 'Los Angeles, CA'
     });
   });
 
@@ -58,7 +58,7 @@ describe.skip('app routes', () => {
       .then(res => {
         expect(res.body).toEqual([{
           _id: expect.any(String),
-          name: 'Robert Dangle',
+          name: 'Laura Dern',
         }]);
       });
   });
@@ -68,11 +68,14 @@ describe.skip('app routes', () => {
       .get(`/api/v1/actors/${actor._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: expect.any(String),
-          name: 'Robert Dangle',
+          name: 'Laura Dern',
           dob: date.toISOString(),
-          pob: 'Earth',
-          __v: 0
+          pob: 'Los Angeles, CA',
+          films: [{
+            _id: film._id.toString(),
+            title: 'Little Women',
+            released: 2019
+          }]
         });
       });
   });
