@@ -101,7 +101,16 @@ describe('app routes', () => {
               _id: lauraDern._id.toString(),
               name: 'Laura Dern'
             }
-          }] 
+          }],
+          reviews: [{
+            _id: expect.any(String),
+            rating: 5,
+            review: 'Fantastic!',
+            reviewer: {
+              _id: expect.any(String),
+              name: 'Jimmy'
+            }
+          }]
         });
       });
   });
