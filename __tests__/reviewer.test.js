@@ -84,4 +84,17 @@ describe('app routes', () => {
         });
       });
   });
+
+  it('can delete a reviewer', async() => {
+    return request(app)
+      .delete(`/api/v1/reviewers/${reviewer._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Paul',
+          company: 'film reviews dot com',
+          __v: 0
+        });
+      });
+  });
 });
