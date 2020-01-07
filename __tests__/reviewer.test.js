@@ -58,4 +58,16 @@ describe('app routes', () => {
         }]);
       });
   });
+
+  it('can get a single reviewer', () => {
+    return request(app)
+      .get(`/api/v1/reviewers/${reviewer._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Paul',
+          company: 'film reviews dot com' 
+        });
+      });
+  });
 });
