@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const Studio = require('../lib/models/Studio');
 const Film = require('../lib/models/Film');
 
-describe('app routes', () => {
+describe.skip('app routes', () => {
   beforeAll(() => {
     connect();
   });

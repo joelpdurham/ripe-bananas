@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const Film = require('../lib/models/Film');
 const Studio = require('../lib/models/Studio');
 const Actor = require('../lib/models/Actor');
+const Review = require('../lib/models/Review');
+const Reviewer = require('../lib/models/Reviewer');
 
 describe('app routes', () => {
   beforeAll(() => {
@@ -20,10 +22,12 @@ describe('app routes', () => {
   let film;
   let studio;
   let lauraDern;
+  let reviewer;
+  let review;
 
   beforeEach(async() => {
     studio = await Studio.create({ name: 'Sony Pictures' });
-    lauraDern = await Actor.create({ name: 'Laura Dern'});
+    lauraDern = await Actor.create({ name: 'Laura Dern' });
     film = await Film.create({
       title: 'Little Women',
       studio: studio._id,
@@ -32,6 +36,16 @@ describe('app routes', () => {
         role: 'Mary March',
         actor: lauraDern._id
       }
+    });
+    reviewer = await Reviewer.create({
+      name: 'Jimmy',
+      company: 'film reviews dot com'
+    });
+    review = await Review.create({
+      rating: 5,
+      reviewer: reviewer._id,
+      review: 'Fantastic!',
+      film: film._id,
     });
   });
 
@@ -103,11 +117,11 @@ describe('app routes', () => {
             }
           }],
           reviews: [{
-            _id: expect.any(String),
+            _id: review._id.toString(),
             rating: 5,
             review: 'Fantastic!',
             reviewer: {
-              _id: expect.any(String),
+              _id: reviewer._id.toString(),
               name: 'Jimmy'
             }
           }]

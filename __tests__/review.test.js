@@ -10,7 +10,7 @@ const Actor = require('../lib/models/Actor');
 const Reviewer = require('../lib/models/Reviewer');
 const Review = require('../lib/models/Review');
 
-describe('app routes', () => {
+describe.skip('app routes', () => {
   beforeAll(() => {
     connect();
   });
@@ -27,7 +27,7 @@ describe('app routes', () => {
 
   beforeEach(async() => {
     studio = await Studio.create({ name: 'Sony Pictures' });
-    lauraDern = await Actor.create({ name: 'Laura Dern'});
+    lauraDern = await Actor.create({ name: 'Laura Dern' });
     film = await Film.create({
       title: 'Little Women',
       studio: studio._id,
