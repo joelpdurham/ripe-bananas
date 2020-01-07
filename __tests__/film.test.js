@@ -55,12 +55,13 @@ describe('app routes', () => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           title: 'Little Women',
-        studio: studio._id.toString(),
-        released: 2019,
-        cast: {
-          role: 'Mary March',
-          actor: lauraDern._id.toString()
-        },
+          studio: studio._id.toString(),
+          released: 2019,
+          cast: [{
+            _id: res.body.cast[0]._id,
+            role: 'Mary March',
+            actor: lauraDern._id.toString()
+          }],
           __v: 0
         });
       });
