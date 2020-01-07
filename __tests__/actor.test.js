@@ -5,6 +5,9 @@ const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const Actor = require('../lib/models/Actor');
+const Film = require('../lib/models/Film');
+const Studio = require('../lib/models/Studio');
+
 
 describe('app routes', () => {
   beforeAll(() => {
@@ -17,14 +20,27 @@ describe('app routes', () => {
 
   let actor;
   const date = new Date();
+  let film;
+  let studio;
 
   beforeEach(async() => {
+    studio = await Studio.create({ name: 'Sony Pictures' });
     actor = await Actor.create({
-
       name: 'Laura Dern',
       dob: date,
       pob: 'Los Angeles, CA'
     });
+
+    film = await Film.create({
+      title: 'Little Women',
+      studio: studio._id,
+      released: 2019,
+      cast: {
+        role: 'Mary March',
+        actor: actor._id
+      }
+    });
+    
   });
 
   afterAll(() => {

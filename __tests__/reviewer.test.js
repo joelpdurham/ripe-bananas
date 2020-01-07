@@ -6,7 +6,7 @@ const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const Reviewer = require('../lib/models/Reviewer');
 
-describe.skip('app routes', () => {
+describe('app routes', () => {
   beforeAll(() => {
     connect();
   });
