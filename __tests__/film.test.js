@@ -66,4 +66,20 @@ describe('app routes', () => {
         });
       });
   });
+
+  it('can get all films', async() => {
+    return request(app)
+      .get('/api/v1/films')
+      .then(res => {
+        expect(res.body).toEqual([{
+          _id: expect.any(String),
+          title: 'Little Women',
+          released: 2019,
+          studio: {
+            _id: studio._id.toString(),
+            name: 'Sony Pictures'
+          }
+        }]);
+      });
+  });
 });
