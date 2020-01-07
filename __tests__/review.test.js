@@ -46,7 +46,21 @@ describe('app routes', () => {
       reviewer: reviewer._id,
       review: 'Fantastic!',
       film: film._id,
-    })
+    });
+
+    await Review.create({
+      rating: 3,
+      reviewer: reviewer._id,
+      review: 'okay',
+      film: film._id,
+    });
+
+    await Review.create({
+      rating: 4,
+      reviewer: reviewer._id,
+      review: 'Pretty good',
+      film: film._id,
+    });
   });
 
   afterAll(() => {
@@ -74,7 +88,8 @@ describe('app routes', () => {
       });
   });
 
-  it('can get top 100 reviews', async() => {
+  it('can get top 2 reviews in desc order', async() => {
+
     return request(app)
       .get('/api/v1/reviews/')
       .then(res => {
@@ -85,7 +100,16 @@ describe('app routes', () => {
           film: {
             _id: film._id.toString(),
             title: 'Little Women'
-          }
+          },
+        },
+        {
+          _id: expect.any(String),
+          rating: 4,
+          review: 'Pretty good',
+          film: {
+            _id: film._id.toString(),
+            title: 'Little Women'
+          },
         }]);
       });
   });
