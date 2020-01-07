@@ -47,7 +47,7 @@ describe('app routes', () => {
       });
   });
 
-  it('can get all reviewers', () => {
+  it('can get all reviewers', async() => {
     return request(app)
       .get('/api/v1/reviewers')
       .then(res => {
@@ -59,7 +59,7 @@ describe('app routes', () => {
       });
   });
 
-  it('can get a single reviewer', () => {
+  it('can get a single reviewer', async() => {
     return request(app)
       .get(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
@@ -67,6 +67,20 @@ describe('app routes', () => {
           _id: expect.any(String),
           name: 'Paul',
           company: 'film reviews dot com' 
+        });
+      });
+  });
+
+  it('can update a reviewer', async() => {
+    return request(app)
+      .patch(`/api/v1/reviewers/${reviewer._id}`)
+      .send({ name: 'Paul Reviewman' })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Paul Reviewman',
+          company: 'film reviews dot com',
+          __v: 0
         });
       });
   });
