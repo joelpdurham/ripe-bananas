@@ -113,5 +113,20 @@ describe('app routes', () => {
         }]);
       });
   });
+
+  it('can delete a review', async() => {
+    return request(app)
+      .delete(`/api/v1/reviews/${review._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          rating: 5,
+          reviewer: reviewer._id.toString(),
+          review: 'Fantastic!',
+          film: film._id.toString(),
+          __v: 0
+        });
+      });
+  });
 });
 
