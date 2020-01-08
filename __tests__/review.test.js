@@ -44,16 +44,18 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('can delete a review', async() => {
+  it('can delete a review', async() => {
+    const review = await getReview();
+
     return request(app)
       .delete(`/api/v1/reviews/${review._id}`)
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          rating: 5,
-          reviewer: reviewer._id.toString(),
-          review: 'Fantastic!',
-          film: film._id.toString(),
+          rating: review.rating,
+          reviewer: expect.any(String),
+          review: review.review,
+          film: expect.any(String),
           __v: 0
         });
       });
