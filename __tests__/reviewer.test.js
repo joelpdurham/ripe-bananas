@@ -1,4 +1,4 @@
-const { getReviewer, getReviewers, getReviews } = require('../lib/helpers/data-helpers');
+const { getReviewer, getReviewers } = require('../lib/helpers/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
@@ -78,7 +78,6 @@ describe('app routes', () => {
 
   it('can delete a reviewer', async() => {
     const reviewer = await getReviewer();
-    console.log(reviewer);
 
     await Review
       .deleteMany({ reviewer: reviewer._id });

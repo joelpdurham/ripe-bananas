@@ -1,60 +1,22 @@
-require('dotenv').config();
+const { getfilm, getfilms, getStudio, getActor } = require('../lib/helpers/data-helpers');
+
 
 const request = require('supertest');
 const app = require('../lib/app');
-const connect = require('../lib/utils/connect');
-const mongoose = require('mongoose');
+
+
 const Film = require('../lib/models/Film');
 const Studio = require('../lib/models/Studio');
 const Actor = require('../lib/models/Actor');
 const Review = require('../lib/models/Review');
 const Reviewer = require('../lib/models/Reviewer');
 
-describe.skip('app routes', () => {
-  beforeAll(() => {
-    connect();
-  });
-
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-
-  let film;
-  let studio;
-  let lauraDern;
-  let reviewer;
-  let review;
-
-  beforeEach(async() => {
-    studio = await Studio.create({ name: 'Sony Pictures' });
-    lauraDern = await Actor.create({ name: 'Laura Dern' });
-    reviewer = await Reviewer.create({
-      name: 'Jimmy',
-      company: 'film reviews dot com'
-    });
-
-    film = await Film.create({
-      title: 'Little Women',
-      studio: studio._id,
-      released: 2019,
-      cast: {
-        role: 'Mary March',
-        actor: lauraDern._id
-      }
-    });
-    review = await Review.create({
-      rating: 5,
-      reviewer: reviewer._id,
-      review: 'Fantastic!',
-      film: film._id,
-    });
-  });
-
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
-
+describe('app routes', () => {
+  
   it('can create a film', async() => {
+    const studio = await getStudio();
+    const actor = await getActor();
+
     return request(app)
       .post('/api/v1/films')
       .send({
@@ -63,26 +25,26 @@ describe.skip('app routes', () => {
         released: 2019,
         cast: {
           role: 'Mary March',
-          actor: lauraDern._id
+          actor: actor._id
         }
       })
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
           title: 'Little Women',
-          studio: studio._id.toString(),
+          studio: studio._id,
           released: 2019,
           cast: [{
             _id: res.body.cast[0]._id,
             role: 'Mary March',
-            actor: lauraDern._id.toString()
+            actor: actor._id
           }],
           __v: 0
         });
       });
   });
 
-  it('can get all films', async() => {
+  it.skip('can get all films', async() => {
     return request(app)
       .get('/api/v1/films')
       .then(res => {
@@ -98,7 +60,7 @@ describe.skip('app routes', () => {
       });
   });
 
-  it('can get a single films', async() => {
+  it.skip('can get a single films', async() => {
     return request(app)
       .get(`/api/v1/films/${film._id}`)
       .then(res => {
