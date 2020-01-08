@@ -1,7 +1,9 @@
-const { getReviewer, getReviewers } = require('../lib/helpers/data-helpers');
+const { getReviewer, getReviewers, getReviews } = require('../lib/helpers/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
+
+const Review = require('../lib/models/Review');
 
 describe('app routes', () => {
   
@@ -65,6 +67,8 @@ describe('app routes', () => {
   });
 
   it('wont delete a reviewer if they still have reviews', async() => {
+    const reviewer = await getReviewer();
+
     return request(app)
       .delete(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
@@ -72,17 +76,20 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('can delete a reviewer', async() => {
-    await request(app)
-      .delete(`/api/v1/reviews/${review._id}`);
-      
+  it('can delete a reviewer', async() => {
+    const reviewer = await getReviewer();
+    console.log(reviewer);
+
+    await Review
+      .deleteMany({ reviewer: reviewer._id });
+
     return request(app)
       .delete(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: expect.any(String),
-          name: 'Paul',
-          company: 'film reviews dot com',
+          _id: reviewer._id,
+          name: reviewer.name,
+          company: reviewer.company,
           __v: 0
         });
       });
