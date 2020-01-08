@@ -9,7 +9,7 @@ const Film = require('../lib/models/Film');
 const Studio = require('../lib/models/Studio');
 
 
-describe('app routes', () => {
+describe.skip('app routes', () => {
   beforeAll(() => {
     connect();
   });

@@ -10,7 +10,7 @@ const Studio = require('../lib/models/Studio');
 const Actor = require('../lib/models/Actor');
 const Review = require('../lib/models/Review');
 
-describe('app routes', () => {
+describe.skip('app routes', () => {
   beforeAll(() => {
     connect();
   });
