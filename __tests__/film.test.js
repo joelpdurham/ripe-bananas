@@ -1,4 +1,4 @@
-const { getfilm, getfilms, getStudio, getActor } = require('../lib/helpers/data-helpers');
+const { getFilm, getFilms, getStudio, getActor } = require('../lib/helpers/data-helpers');
 
 
 const request = require('supertest');
@@ -44,19 +44,13 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('can get all films', async() => {
+  it('can get all films', async() => {
+    const films = await getFilms();
+
     return request(app)
       .get('/api/v1/films')
       .then(res => {
-        expect(res.body).toEqual([{
-          _id: expect.any(String),
-          title: 'Little Women',
-          released: 2019,
-          studio: {
-            _id: studio._id.toString(),
-            name: 'Sony Pictures'
-          }
-        }]);
+        expect(res.body).toHaveLength(films.length);
       });
   });
 
