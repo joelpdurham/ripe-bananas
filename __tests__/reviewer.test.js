@@ -118,6 +118,14 @@ describe('app routes', () => {
       });
   });
 
+  it('wont delete a reviewer if they still have reviews', async() => {
+    return request(app)
+      .delete(`/api/v1/reviewers/${reviewer._id}`)
+      .then(res => {
+        expect(res.body).toEqual({message: 'This reviewer has reviews.', status: 500});
+      });
+  });
+
   it('can delete a reviewer', async() => {
     return request(app)
       .delete(`/api/v1/reviewers/${reviewer._id}`)
