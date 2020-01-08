@@ -36,19 +36,17 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('can get a single actor', async() => {
+  it('can get a single actor', async() => {
+    const actor = await getActor();
+
     return request(app)
       .get(`/api/v1/actors/${actor._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          name: 'Laura Dern',
-          dob: date.toISOString(),
-          pob: 'Los Angeles, CA',
-          films: [{
-            _id: film._id.toString(),
-            title: 'Little Women',
-            released: 2019
-          }]
+          name: actor.name,
+          dob: actor.dob,
+          pob: actor.pob,
+          films: expect.any(Array)
         });
       });
   });
