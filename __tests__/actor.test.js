@@ -1,52 +1,10 @@
-require('dotenv').config();
+const { getActor, getActors } = require('../lib/helpers/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
-const connect = require('../lib/utils/connect');
-const mongoose = require('mongoose');
-const Actor = require('../lib/models/Actor');
-const Film = require('../lib/models/Film');
-const Studio = require('../lib/models/Studio');
 
 
-describe.skip('app routes', () => {
-  beforeAll(() => {
-    connect();
-  });
-
-  beforeEach(() => {
-    return mongoose.connection.dropDatabase();
-  });
-
-  let actor;
-  const date = new Date();
-  let film;
-  let studio;
-
-  beforeEach(async() => {
-    studio = await Studio.create({ name: 'Sony Pictures' });
-    actor = await Actor.create({
-      name: 'Laura Dern',
-      dob: date,
-      pob: 'Los Angeles, CA'
-    });
-
-    film = await Film.create({
-      title: 'Little Women',
-      studio: studio._id,
-      released: 2019,
-      cast: {
-        role: 'Mary March',
-        actor: actor._id
-      }
-    });
-    
-  });
-
-  afterAll(() => {
-    return mongoose.connection.close();
-  });
-
+describe('app routes', () => {
   it('can create an actor', async() => {
     const myDate = new Date('12/10/1988');
     return request(app)
@@ -69,17 +27,16 @@ describe.skip('app routes', () => {
   });
 
   it('can get all actors', async() => {
+    const actors = await getActors();
+
     return request(app)
       .get('/api/v1/actors')
       .then(res => {
-        expect(res.body).toEqual([{
-          _id: expect.any(String),
-          name: 'Laura Dern',
-        }]);
+        expect(res.body).toHaveLength(actors.length);
       });
   });
 
-  it('can get a single actor', async() => {
+  it.skip('can get a single actor', async() => {
     return request(app)
       .get(`/api/v1/actors/${actor._id}`)
       .then(res => {
