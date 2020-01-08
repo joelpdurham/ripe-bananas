@@ -122,11 +122,14 @@ describe('app routes', () => {
     return request(app)
       .delete(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
-        expect(res.body).toEqual({message: 'This reviewer has reviews.', status: 500});
+        expect(res.body).toEqual({ message: 'This reviewer has reviews.', status: 500 });
       });
   });
 
   it('can delete a reviewer', async() => {
+    await request(app)
+      .delete(`/api/v1/reviews/${review._id}`);
+      
     return request(app)
       .delete(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
