@@ -28,6 +28,11 @@ describe('app routes', () => {
   beforeEach(async() => {
     studio = await Studio.create({ name: 'Sony Pictures' });
     lauraDern = await Actor.create({ name: 'Laura Dern' });
+    reviewer = await Reviewer.create({
+      name: 'Jimmy',
+      company: 'film reviews dot com'
+    });
+
     film = await Film.create({
       title: 'Little Women',
       studio: studio._id,
@@ -36,10 +41,6 @@ describe('app routes', () => {
         role: 'Mary March',
         actor: lauraDern._id
       }
-    });
-    reviewer = await Reviewer.create({
-      name: 'Jimmy',
-      company: 'film reviews dot com'
     });
     review = await Review.create({
       rating: 5,
