@@ -54,34 +54,18 @@ describe('app routes', () => {
       });
   });
 
-  it.skip('can get a single films', async() => {
+  it('can get a single films', async() => {
+    const film = await getFilm();
+
     return request(app)
       .get(`/api/v1/films/${film._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          title: 'Little Women',
-          released: 2019,
-          studio: {
-            _id: studio._id.toString(),
-            name: 'Sony Pictures'
-          },
-          cast: [{
-            _id: res.body.cast[0]._id,
-            role: 'Mary March',
-            actor: {
-              _id: lauraDern._id.toString(),
-              name: 'Laura Dern'
-            }
-          }],
-          reviews: [{
-            _id: review._id.toString(),
-            rating: 5,
-            review: 'Fantastic!',
-            reviewer: {
-              _id: reviewer._id.toString(),
-              name: 'Jimmy'
-            }
-          }]
+          title: film.title,
+          released: film.released,
+          studio: expect.any(Object),
+          cast: expect.any(Array),
+          reviews: expect.any(Array)
         });
       });
   });
