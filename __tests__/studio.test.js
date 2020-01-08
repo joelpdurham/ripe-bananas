@@ -32,22 +32,16 @@ describe('app routes', () => {
       });
   });
   
-  it.skip('can get a single studio', async() => {
+  it('can get a single studio', async() => {
+    const studio = await getStudio();
+
     return request(app)
       .get(`/api/v1/studios/${studio._id}`)
       .then(res => {
         expect(res.body).toEqual({
-          _id: expect.any(String),
-          name: 'Films!',
-          address: {
-            city: 'Portland',
-            state: 'Oregon',
-            country: 'United States'
-          },
-          films: [{
-            _id: expect.any(String),
-            title: 'Little Women'
-          }]
+          _id: studio._id,
+          name: studio.name,
+          films: expect.any(Array)
         });
       });
   });
