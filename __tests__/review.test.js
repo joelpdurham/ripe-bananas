@@ -1,14 +1,7 @@
-const { getReview, getReviews, getFilm, getReviewer } = require('../lib/helpers/data-helpers');
+const { getReview, getFilm, getReviewer } = require('../lib/helpers/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
-
-
-const Film = require('../lib/models/Film');
-const Studio = require('../lib/models/Studio');
-const Actor = require('../lib/models/Actor');
-const Reviewer = require('../lib/models/Reviewer');
-const Review = require('../lib/models/Review');
 
 describe('app routes', () => {
 
